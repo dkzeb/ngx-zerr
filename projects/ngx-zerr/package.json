@@ -1,6 +1,22 @@
 {
   "name": "ngx-zerr",
-  "version": "0.0.1",
+  "author": {
+    "name": "dkzeb"
+  },
+  "repository": {
+    "url": "https://github.com/dkzeb/ngx-zerr",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/dkzeb/ngx-zerr/issues"
+  },
+  "homepage": "https://github.com/dkzeb/ngx-zerr",
+  "keywords": [
+    "angular",
+    "error-handler",
+    "post"
+  ],
+  "version": "0.1.0-alpha",
   "bundleDependencies": [
     "app-root-path"
   ],
@@ -12,5 +28,6 @@
   },
   "dependencies": {
     "tslib": "^2.0.0"
-  }
+  },
+  "license": "ISC"
 }

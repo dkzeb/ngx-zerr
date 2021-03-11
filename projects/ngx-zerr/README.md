@@ -1,24 +1,52 @@
-# NgxZerr
+# ngx-zerr
+Welcom to ngx-zerr - the be-all (not really) catch-all errors and post them via http - angular error handler
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.4.
+### PLEASE NOTE THIS MODULE IS CURRENTLY IN ALPHA, PROBABLY HAS BUGS, AND SHOULD BE TESTED THOROUGHLY IF CONSIDERED FOR USE IN PRODUCTION
 
-## Code scaffolding
+## Install
+npm install --save ngx-zerr
 
-Run `ng generate component component-name --project ngx-zerr` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-zerr`.
-> Note: Don't forget to add `--project ngx-zerr` or else it will be added to the default project in your `angular.json` file. 
+## Usage
+To use this module, you must import and configure it in your app.module.ts
 
-## Build
+```ts
+import { NgxZerrModule } from 'ngx-zerr';
+...
 
-Run `ng build ngx-zerr` to build the project. The build artifacts will be stored in the `dist/` directory.
+@NgModule({
+  declarations: [
+    ...
+  ],
+  imports: [
+    ...,
+    NgxZerrModule.forRoot({
+      errorsPostEndpoint: <string>, // any URL you wish to have your errors posted to
+      debug: <bool>
+    })
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
 
-## Publishing
+## Interfaces & Classes
+The module works by catching all errors in the angular project, serializing the error object and posting it along with some additional information, the following interface shows what is posted to the endpoint
 
-After building your library with `ng build ngx-zerr`, go to the dist folder `cd dist/ngx-zerr` and run `npm publish`.
+```ts
+interface ZError {
+    error: string;
+    timestamp: number;
+    browserAgent: string;
+    consoleLogMessages: any[];
+}
+```
 
-## Running unit tests
-
-Run `ng test ngx-zerr` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+The module is configured by supplying it with a set of options
+```ts
+export class ZErrOptions {
+    errorsPostEndpoint: string;
+    debug?: boolean;
+}
+```
+When debug is true, the module will log errors and debug messages to the console
