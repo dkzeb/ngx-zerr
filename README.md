@@ -1,6 +1,12 @@
-# ErrorLibWorkspace
+# ngx-zerr Workspace
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+This library is built with @angular/cli scaffolding - therefore the rest of this readme is the standard readme from NG - it does however give a pretty good idea of what to do - to add a bit i have the following tidbit
+
+## Using the library locally
+You can build and link the library to your local npm registry by running
+`npm run build-zerr` - this is equivallent to running `ng build ngx-zerr && cd dist/ngx-zerr && npm link && cd ../../`
+After which, you can link this to your local angular project by running `npm link ngx-zerr` in that project folder
+*This is just generally how you link local packages and have nothing to do with this project :)*
 
 ## Development server
 
