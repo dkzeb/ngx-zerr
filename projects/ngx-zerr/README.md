@@ -39,6 +39,7 @@ interface ZError {
     timestamp: number;
     browserAgent: string;
     consoleLogMessages: any[];
+    additionalInfo?: string;
 }
 ```
 
@@ -47,6 +48,43 @@ The module is configured by supplying it with a set of options
 export class ZErrOptions {
     errorsPostEndpoint: string;
     debug?: boolean;
+    verboseLog?: boolean;
+    additionalInfoGetter?: Function;
 }
 ```
 When debug is true, the module will log errors and debug messages to the console
+
+### additionalInfoGetter
+It is possible to provide the module with an 'additionalInfoGetter' method, this should return an object, and it will be serialized and pushed together with the error to the server. This allows for custom information gathering, such as localStorage contents or cookies - see the following example:
+
+```ts
+NgxZerrModule.forRoot({
+      errorsPostEndpoint: 'http://localhost:3000/error',
+      debug: true,
+      verboseLog: true,
+      additionalInfoGetter: () => {
+        return {
+            localStorage: localStorage,
+            sessionStorage: sessionStorage,
+            cookies: document.cookie
+        }
+      }
+    })
+```
+
+Which will produce the following on the server after JSON.parse:
+
+```json
+ "additionalInfo": {
+        "localStorage": {
+          "opgaver": "[{\"id\":0,\"title\":\"Test Generated 0\",\"description\":\"This is only a test\",\"startDate\":\"2021-02-15T13:21:59.654Z\",\"status\":0},{\"id\":1,\"title\":\"Test Generated 1\",\"description\":\"This is only a test\",\"startDate\":\"2021-02-15T13:28:17.371Z\",\"status\":0}]",
+          "signedIn": "true",
+          "OTelJS.ClientId": "e22bf04e-ae2a-437e-80c8-0fd06aab5086",
+          "userName": "someUser Name",
+          "userRole": "0"
+        },
+        "sessionStorage": {},
+        "cookies": "cookieconsent_status=dismiss;"
+      }
+    }
+```
