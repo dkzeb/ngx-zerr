@@ -7,6 +7,7 @@ interface ZError {
     timestamp: number;
     browserAgent: string;
     consoleLogMessages: any[];
+    additionalInfo?: string;
 }
 
 let logBackup: any = console.log;
@@ -36,6 +37,14 @@ export class ZErrGlobalErrorHandler implements ErrorHandler {
 
         if (this.zOpts.debug) {
             console.error('ZERR Debug Log:', errIn);
+        }
+
+        if(this.zOpts.verboseLog) {
+            console.log(errIn);
+        }
+
+        if(this.zOpts.additionalInfoGetter) {
+            e.additionalInfo = JSON.stringify(this.zOpts.additionalInfoGetter());
         }
 
         this.http.post(this.zOpts.errorsPostEndpoint, { error: e }).subscribe((res) => {
